@@ -140,4 +140,36 @@ public class StudentRepo {
     }
 
 
+    //
+    public Account getAccount(String account){
+        Account account1;
+        String sql;
+        if(account == null) return null;
+        else sql = "select * from Account where account = '" + account +"'";
+
+        Statement st = null;
+        ResultSet rs = null;
+        try {
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            // Iterate through the data in the result set and display it.
+            while (rs.next()) {
+                account1 = new Account();
+                account1.account = rs.getString(2);
+                account1.password = rs.getString(3);
+                return account1;
+            }
+            JOptionPane.showMessageDialog(null,
+                    "NON-EXISTENT!", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null)  rs.close();
+                if (st != null)  st.close();
+                if (con != null) con.close();
+            }catch (SQLException e){ e.printStackTrace();}
+        }
+        return null;
+    }
 }
